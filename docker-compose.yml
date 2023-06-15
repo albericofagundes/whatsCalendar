@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    networks:
+      - app-network
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ocirebla
+      POSTGRES_PASSWORD: '99411520'
+      POSTGRES_DB: 'db-whats-calendar'
+    networks:
+      - app-network
+    volumes:
+      - ./data:/var/lib/postgresql/data
+  frontend:
+    build: ./frontend
+    restart: always
+    ports:
+      - 19000:19000
+      - 19001:19001
+    networks:
+      - app-network
+
+networks:
+  app-network:
